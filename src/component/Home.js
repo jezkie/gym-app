@@ -40,6 +40,7 @@ class Home extends Component {
     }
 
     componentWillMount() {
+        console.log('Component will mount...');
         this.setState({
             types: [{description: '-- Workout Type --'}, CHEST_TYPE, BACK_TYPE, SHOULDER_TYPE, LEG_TYPE]
         })
@@ -65,7 +66,7 @@ class Home extends Component {
         const { data } = this.props;
         let menus = this.state.types.map((item, i)=> {
             return (
-                <MenuItem key={item.id} onSelect={() => this.onExerciseTypeChange(item.id, item.description)} key={i}>{item.description}</MenuItem>
+                <MenuItem onSelect={() => this.onExerciseTypeChange(item.id, item.description)} key={i}>{item.description}</MenuItem>
             )
         });
         return (

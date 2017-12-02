@@ -10,7 +10,13 @@ function mapStateToProps(state) {
 class AddExercise extends Component {
     constructor(props){
         super(props);
+        this.save = this.save.bind(this);
     }
+
+    save(){
+
+    }
+
     render() {
         console.log(this.props.match.params.param);
         return (
