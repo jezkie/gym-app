@@ -3,17 +3,18 @@ const exercisesRef = fire.database().ref().child('exercises');
 
 function mapExerciseToKey(list) {
     let exercises = [];
-    Object.keys(list).forEach(key => {
-            exercises.push(Object.assign({ key: key }, list[key]));
-        }
-    )
+    if (list) {
+        Object.keys(list).forEach(key => {
+                exercises.push(Object.assign({ key: key }, list[key]));
+            }
+        )
+    }
     return exercises;
 }
 
 export function fetchExercises(key) {
     return (
         dispatch => {
-            let exercises = [];
             if (key) {
                 exercisesRef.orderByChild('type').equalTo(key).on('value', (snap) => {
                     dispatch({

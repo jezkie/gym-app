@@ -1,3 +1,6 @@
+export const DEFAULT_VALUE = {
+    description: '-- Workout Type --'
+}
 export const CHEST_TYPE = {
     id: 1,
     description: 'Chest'

@@ -4,11 +4,14 @@ import { connect } from 'react-redux';
 import { DropdownButton, MenuItem, Col, Row } from 'react-bootstrap';
 import ExerciseList from './ExerciseList';
 import { fetchExercises, deleteExercise } from './ExerciseAction';
+import { dropdownLinkState } from '../common/linkstate/LinkState';
+import Dropdown from '../common/component/Dropdown';
 import {
     CHEST_TYPE,
     SHOULDER_TYPE,
     BACK_TYPE,
-    LEG_TYPE
+    LEG_TYPE,
+    DEFAULT_VALUE
 } from '../const/exerciseType';
 
 function mapStateToProps(state) {
@@ -31,31 +34,25 @@ class Home extends Component {
     constructor(props){
         super(props);
         this.state = {
-          types: [] ,
           selectedType: null,
-          selectedTypeDescription: '-- Workout Type --'
+          types: [DEFAULT_VALUE, CHEST_TYPE, BACK_TYPE, SHOULDER_TYPE, LEG_TYPE],
+          selectedTypeDescription: DEFAULT_VALUE.description,
         };
         this.deleteExercise = this.deleteExercise.bind(this);
-        this.onExerciseTypeChange = this.onExerciseTypeChange.bind(this);
     }
 
     componentWillMount() {
         console.log('Component will mount...');
-        this.setState({
-            types: [{description: '-- Workout Type --'}, CHEST_TYPE, BACK_TYPE, SHOULDER_TYPE, LEG_TYPE]
-        })
+
         const { fetchExercises } = this.props;
         fetchExercises(this.state.selectedType);
     }
 
-    onExerciseTypeChange(id, description){
+    componentWillUpdate(nextProps, nextState) {
         const { fetchExercises } = this.props;
-        this.setState({
-            selectedType: id,
-            selectedTypeDescription: description
-        }, () => {
-            fetchExercises(this.state.selectedType)
-        });
+        if (this.state.selectedType !== nextState.selectedType) {
+            fetchExercises(nextState.selectedType);
+        }
     }
 
     deleteExercise(key) {
@@ -64,26 +61,19 @@ class Home extends Component {
 
     render() {
         const { data } = this.props;
-        let menus = this.state.types.map((item, i)=> {
-            return (
-                <MenuItem onSelect={() => this.onExerciseTypeChange(item.id, item.description)} key={i}>{item.description}</MenuItem>
-            )
-        });
         return (
             <div>
                 <Col lg={12}>
                     <Row>
                         <Col lg={3} className="pull-right">
-                            <DropdownButton
-                                id="input-dropdown-addon"
-                                title={this.state.selectedTypeDescription} >
-                                { menus }
-                            </DropdownButton>
+                            <Dropdown items={this.state.types} 
+                                    description={this.state.selectedTypeDescription} 
+                                    valueLink={dropdownLinkState(this, 'selectedType', 'selectedTypeDescription')} />
                         </Col>
                     </Row>
                     <hr/>
                     <Row>
-                        { data.exercises ? 
+                        { data.exercises && data.exercises.length !== 0 ? 
                             <ExerciseList exercises={ data.exercises } deleteHandler={ this.deleteExercise }></ExerciseList>
                             : <h3>Exercises is empty</h3>
                         }
