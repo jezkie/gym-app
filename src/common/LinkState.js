@@ -3,10 +3,8 @@ export function linkState(component, attr) {
         value: component.state[attr],
         set(x) {
             component.setState({
-                input: {
-                    ...component.state,
-                    [attr]: x
-                }
+                ...component.state,
+                [attr]: x
             }, () => {
                 console.log('linkState on change handler => input', component.state);
             });
