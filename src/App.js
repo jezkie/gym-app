@@ -12,7 +12,7 @@ import AddExercise from './component/AddExercise';
 class Main extends Component {
   render() {
     return (
-      <div className="App">
+      <div>
         <header>
           <NavBar />
         </header>

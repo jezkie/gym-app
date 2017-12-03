@@ -16,7 +16,7 @@ const ExerciseList = ({ exercises, deleteHandler }) => {
         return (
             <Col xs={10} xsOffset={1} md={5} mdOffset={1} lg={3} key={i}>
                 <Thumbnail src={defaultImg}>
-                    <a onClick={() => deleteHandler(item.id)}>
+                    <a onClick={() => deleteHandler(item.key)}>
                         <span className="glyphicon glyphicon-remove"></span>
                     </a>
                     <h3>{item.name}</h3>
