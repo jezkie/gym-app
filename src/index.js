@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route} from 'react-router-dom';
 
 import './index.css';
-import Main from './App';
+import App from './App';
 
 ReactDOM.render(
     <BrowserRouter>
-        <Route path='/' component={Main} />
+        <Route path='/' component={App} />
     </BrowserRouter>
     , document.getElementById('root'));
 

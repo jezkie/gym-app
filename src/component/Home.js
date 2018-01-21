@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { DropdownButton, MenuItem, Col, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import ExerciseList from './ExerciseList';
 import { fetchExercises, deleteExercise } from './ExerciseAction';
 import { dropdownLinkState } from '../common/linkstate/LinkState';
@@ -46,6 +46,7 @@ class Home extends Component {
 
         const { fetchExercises } = this.props;
         fetchExercises(this.state.selectedType);
+        console.log(this.props.data.exercises);
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -53,6 +54,7 @@ class Home extends Component {
         if (this.state.selectedType !== nextState.selectedType) {
             fetchExercises(nextState.selectedType);
         }
+        console.log(this.props.data.exercises);
     }
 
     deleteExercise(key) {
