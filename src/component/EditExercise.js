@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import BlockUi from 'react-block-ui';
+import 'react-block-ui/style.css';
+
 import { fetchExercise, updateExercise } from '../redux/action/ExerciseAction';
 import ExerciseForm from './ExerciseForm';
 import {
@@ -28,7 +31,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 class EditExercise extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.save = this.save.bind(this);
         this.state = {
@@ -42,7 +45,7 @@ class EditExercise extends Component {
             selectedType: ''
         }
     }
-    
+
     componentWillMount() {
         const key = this.props.match.params.param;
         const { fetchExercise } = this.props;
@@ -52,17 +55,16 @@ class EditExercise extends Component {
     componentWillReceiveProps(nextProps) {
         const { data } = nextProps;
         const { exercise } = data;
-        console.log('Fetched exercise ->', data);
         if (exercise) {
             this.setState({
                 ...this.state, ...exercise,
                 selectedType: exercise.type,
-                selectedTypeDescription: this.getTypeDescription(exercise.type) 
+                selectedTypeDescription: this.getTypeDescription(exercise.type)
             });
         }
     }
 
-    getTypeDescription(type){
+    getTypeDescription(type) {
         let description = this.state.types.filter(obj => {
             return obj.id === type;
         }).map((obj) => {
@@ -70,24 +72,21 @@ class EditExercise extends Component {
         })
         return description;
     }
-    
+
     save(e) {
         e.preventDefault();
         const { updateExercise } = this.props;
-        let exercise = {
-            name: this.state.name,
-            sets: this.state.sets,
-            reps: this.state.reps,
-            type: this.state.type,
-            key: this.state.key
-        }
-        console.log('Saving exercise ->', exercise);
+        const exercise = Object.assign({}, this.state);
         updateExercise(exercise);
     }
-    
+
     render() {
         return (
-            <ExerciseForm saveHandler={this.save} _this={this}/>
+            <div>
+                <BlockUi tag='div' blocking={!this.props.data.loaded}>
+                    <ExerciseForm saveHandler={this.save} _this={this} loaded={this.props.data.loaded} />
+                </BlockUi>
+            </div>
         );
     }
 }

@@ -5,6 +5,7 @@
   "dependencies": {
     "firebase": "^4.6.2",
     "react": "^16.1.1",
+    "react-block-ui": "^1.1.1",
     "react-bootstrap": "^0.31.5",
     "react-dom": "^16.1.1",
     "react-redux": "^5.0.6",

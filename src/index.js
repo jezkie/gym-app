@@ -1,13 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route} from 'react-router-dom';
+import { Provider } from 'react-redux';
+
+import { BrowserRouter, Route } from 'react-router-dom';
+
+import ExerciseStore from './store';
 
 import './index.css';
 import App from './App';
 
 ReactDOM.render(
     <BrowserRouter>
-        <Route path='/' component={App} />
+        <Provider store={ExerciseStore}>
+            <Route path='/' component={App} />
+        </Provider>
     </BrowserRouter>
     , document.getElementById('root'));
 
