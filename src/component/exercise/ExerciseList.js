@@ -1,6 +1,6 @@
 import React from 'react';
-import defaultImg from '../images/default.svg';
-import addIcon from '../images/Add-icon.png';
+import defaultImg from '../../images/default.svg';
+import addIcon from '../../images/Add-icon.png';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import { Thumbnail, Button, Row, Grid, Col } from 'react-bootstrap';

@@ -6,8 +6,8 @@ import './App.css';
 
 import NavBar from './component/NavBar';
 import Home from './component/Home';
-import AddExercise from './component/AddExercise';
-import EditExercise from './component/EditExercise';
+import AddExercise from './component/exercise/AddExercise';
+import EditExercise from './component/exercise/EditExercise';
 
 function mapStateToProps(state) {
   return (

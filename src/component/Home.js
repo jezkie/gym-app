@@ -4,7 +4,7 @@ import { Col, Row } from 'react-bootstrap';
 import BlockUi from 'react-block-ui';
 import 'react-block-ui/style.css';
 
-import ExerciseList from './ExerciseList';
+import ExerciseList from './exercise/ExerciseList';
 import { fetchExercises, deleteExercise } from '../redux/action/ExerciseAction';
 import { dropdownLinkState } from '../common/linkstate/LinkState';
 import Dropdown from '../common/component/Dropdown';

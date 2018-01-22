@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import BlockUi from 'react-block-ui';
 import 'react-block-ui/style.css';
 
-import { fetchExercise, updateExercise } from '../redux/action/ExerciseAction';
+import { fetchExercise, updateExercise } from '../../redux/action/ExerciseAction';
 import ExerciseForm from './ExerciseForm';
 import {
     CHEST_TYPE,
@@ -12,7 +12,7 @@ import {
     BACK_TYPE,
     LEG_TYPE,
     DEFAULT_VALUE
-} from '../const/exerciseType';
+} from '../../const/exerciseType';
 
 function mapStateToProps(state) {
     return (

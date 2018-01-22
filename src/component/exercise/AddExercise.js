@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createExercise } from '../redux/action/ExerciseAction';
+import { createExercise } from '../../redux/action/ExerciseAction';
 import ExerciseForm from './ExerciseForm';
 import {
     CHEST_TYPE,
@@ -8,7 +8,7 @@ import {
     BACK_TYPE,
     LEG_TYPE,
     DEFAULT_VALUE
-} from '../const/exerciseType';
+} from '../../const/exerciseType';
 
 function mapStateToProps(state) {
     return {

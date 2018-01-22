@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { FormGroup, Col, ControlLabel } from 'react-bootstrap';
-import { linkState, dropdownLinkState } from '../common/linkstate/LinkState';
-import TextInput from '../common/component/TextInput';
-import Dropdown from '../common/component/Dropdown';
+import { linkState, dropdownLinkState } from '../../common/linkstate/LinkState';
+import TextInput from '../../common/component/TextInput';
+import Dropdown from '../../common/component/Dropdown';
 
 const ExerciseForm = ({ saveHandler, _this }) => {
     return (
