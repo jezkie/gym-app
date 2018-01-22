@@ -6,12 +6,6 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Thumbnail, Button, Row, Grid, Col } from 'react-bootstrap';
 
 const ExerciseList = ({ exercises, deleteHandler }) => {
-    // let exerciseArr = [];
-    // tranfer data from firebase to ARRAY because firebase is inconsistenly
-    // returning Object instead of ARRAY
-    /*for (var i in exercises) {
-        exerciseArr.push(exercises[i]);
-    }*/
     let exerciseList = exercises.map((item, i) => {
         return (
             <Col xs={10} xsOffset={1} md={5} mdOffset={1} lg={3} key={i}>

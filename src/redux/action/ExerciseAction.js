@@ -1,4 +1,4 @@
-import fire from '../conf/fire';
+import fire from '../../conf/fire';
 const exercisesRef = fire.database().ref().child('exercises');
 
 function mapExerciseToKey(list) {

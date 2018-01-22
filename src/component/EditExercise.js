@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchExercise, updateExercise } from './ExerciseAction';
+import { fetchExercise, updateExercise } from '../redux/action/ExerciseAction';
 import ExerciseForm from './ExerciseForm';
 import {
     CHEST_TYPE,

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { Col, Row } from 'react-bootstrap';
 import ExerciseList from './ExerciseList';
-import { fetchExercises, deleteExercise } from './ExerciseAction';
+import { fetchExercises, deleteExercise } from '../redux/action/ExerciseAction';
 import { dropdownLinkState } from '../common/linkstate/LinkState';
 import Dropdown from '../common/component/Dropdown';
 import {
