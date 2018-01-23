@@ -14,7 +14,10 @@ const ExerciseList = ({ exercises, deleteHandler }) => {
                         <span className="glyphicon glyphicon-remove"></span>
                     </a>
                     <h3>{item.name}</h3>
-                    <Button bsStyle="primary">Start</Button>&nbsp;
+                    
+                    <LinkContainer to={`/log/start/${item.key}`}>
+                        <Button bsStyle="primary">Start</Button>
+                    </LinkContainer>&nbsp;
                     <LinkContainer to={`/edit/exercise/${item.key}`}>
                         <Button bsStyle="default">Edit</Button>
                     </LinkContainer>

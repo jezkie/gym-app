@@ -7,6 +7,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import ExerciseStore from './store';
 
 import './index.css';
+import 'semantic-ui-css/semantic.min.css';
 import App from './App';
 
 ReactDOM.render(

@@ -8,6 +8,7 @@ import NavBar from './component/NavBar';
 import Home from './component/Home';
 import AddExercise from './component/exercise/AddExercise';
 import EditExercise from './component/exercise/EditExercise';
+import StartExercise from './component/log/StartExercise';
 
 function mapStateToProps(state) {
   return (
@@ -26,6 +27,7 @@ class Main extends Component {
           <Route exact path='/' component={Home} />
           <Route path='/add/exercise/:param' component={AddExercise} />
           <Route path='/edit/exercise/:param' component={EditExercise} />
+          <Route path='/log/start/:param' component={StartExercise}/>
           <Route path='/about' render={() => <h1>Under construction!</h1>} />
         </div>
       </div>
