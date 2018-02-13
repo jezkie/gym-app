@@ -11,19 +11,6 @@ function mapExerciseToKey(list) {
     return exercises;
 }
 
-function filterExerciseBySelectedId(list, id) {
-    let exercise = {};
-    if (list) {
-        Object.keys(list).forEach(key => {
-            if (key === id) {
-                exercise = list[key];
-                exercise.key = key;
-            }
-        })
-    }
-    return exercise;
-}
-
 export function fetchExercises(key) {
     return (
         dispatch => {
@@ -61,12 +48,11 @@ export function deleteExercise(key) {
 export function fetchExercise(key) {
     return (
         dispatch => {
-            console.log('key value ->', key);
-            exercisesRef.on('value', snap => {
+            exercisesRef.orderByKey().equalTo(key).on('child_added', (snap) => {
                 dispatch({
                     type: 'GET_EXERCISE',
-                    payload: filterExerciseBySelectedId(snap.val(), key)
-                });
+                    payload: snap.val()
+                })
             });
         }
     )
