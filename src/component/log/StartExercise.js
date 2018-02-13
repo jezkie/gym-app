@@ -4,6 +4,7 @@ import { Grid, Header, Label, Segment, Container, Menu } from 'semantic-ui-react
 import moment from 'moment';
 
 import { fetchExercise } from '../../redux/action/ExerciseAction';
+import { logExercise } from '../../redux/action/LogExerciseAction';
 
 function mapStateToProps(state) {
     return (
@@ -15,6 +16,9 @@ const mapDispatchToProps = (dispatch) => {
         fetchExercise: (key) => {
             dispatch(fetchExercise(key));
         },
+        logExercise: (exercise) => {
+            dispatch(logExercise(exercise));
+        }
     }
 }
 
@@ -25,10 +29,10 @@ class StartExercise extends Component {
         this.state = {
             weight: 150,
             unit: 'lbs',
-            date: moment(d).format('L')//String(d.getMonth() + 1).concat('/').concat(d.getDate()).concat('/').concat(d.getFullYear())
+            date: moment(d).format('L')
         }
 
-        this.logExercise = this.logExercise.bind(this);
+        // this.logExercise = this.logExercise.bind(this);
     }
 
     componentWillMount() {
@@ -40,21 +44,25 @@ class StartExercise extends Component {
     renderSets(sets, reps) {
         const result = [];
         for (var i = 0; i < sets; i++) {
-            result.push(<Menu.Item key={i} onClick={() => this.logExercise()}>{reps}</Menu.Item>);
+            result.push(<Menu.Item key={i} onClick={this.logExercise.bind(this, i)}>{reps}</Menu.Item>);
         }
 
         return <Menu vertical fluid color='red' style={{ padding: '10px' }}>{result}</Menu>
     }
 
-    logExercise() {
+    logExercise(set) {
         const { data } = this.props;
         const { exercise } = data;
-
+        const { logExercise } = this.props;
         //log exercise here
-
+        const logObj = Object.assign({},
+            //object destructuring and property shorhand
+            (({ name, reps }) => ({ name, reps }))(exercise),
+            this.state,
+            { set: set + 1 });
+        console.log(logObj);
+        logExercise(logObj);
         //start rest time
-
-        console.log(Object.assign({}, exercise, this.state));
     }
 
     render() {
