@@ -25,7 +25,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 class AddExercise extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.save = this.save.bind(this);
 
@@ -45,7 +45,7 @@ class AddExercise extends Component {
         console.log('Component will mount', this.props);
     }
 
-    save(e){
+    save(e) {
         e.preventDefault();
         console.log('Current state on save', this.state)
 
@@ -58,10 +58,10 @@ class AddExercise extends Component {
             type: this.state.type
         });
 
-       this.clearInputs();
+        this.clearInputs();
     }
 
-    clearInputs(){
+    clearInputs() {
         this.setState({
             name: '',
             sets: 0,
@@ -72,10 +72,8 @@ class AddExercise extends Component {
     }
 
     render() {
-        console.log(this.props.match.params.param);
-
         return (
-            <ExerciseForm saveHandler={this.save} _this={this}/>
+            <ExerciseForm saveHandler={this.save} _this={this} />
         );
     }
 }
