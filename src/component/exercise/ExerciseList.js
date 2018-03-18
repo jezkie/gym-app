@@ -14,7 +14,7 @@ const ExerciseList = ({ exercises, deleteHandler }) => {
                         <span className="glyphicon glyphicon-remove"></span>
                     </a>
                     <h3>{item.name}</h3>
-                    
+
                     <LinkContainer to={`/log/start/${item.key}`}>
                         <Button bsStyle="primary">Start</Button>
                     </LinkContainer>&nbsp;
@@ -29,10 +29,10 @@ const ExerciseList = ({ exercises, deleteHandler }) => {
         <Grid>
             <Row>
                 <Col xs={10} xsOffset={1} md={5} mdOffset={1} lg={3}>
-                <LinkContainer to='/add/exercise/Hello'>
-                    <Thumbnail src={addIcon}>
-                    </Thumbnail>
-                </LinkContainer>
+                    <LinkContainer to='/add/exercise'>
+                        <Thumbnail src={addIcon}>
+                        </Thumbnail>
+                    </LinkContainer>
                 </Col>
                 {exerciseList}
             </Row>
