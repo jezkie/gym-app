@@ -40,8 +40,7 @@ class Main extends Component {
         <div>
           <header><NavBar logoutHandler={this.logout.bind(this)} /></header>
           <div>
-            <Route exect path='/' component={Home} />
-            <Route path='/login' component={Login} />
+            <Route exact path='/' component={Home} />
             <Route path='/edit/exercise/:param' component={EditExercise} />
             <Route path='/log/start/:param' component={StartExercise} />
             <Route path='/about' render={() => <h1>Under construction!</h1>} />
@@ -50,7 +49,7 @@ class Main extends Component {
         </div>
       );
     }
-    
+
     return (
       <div>
         <Route exact path='/login' component={Login} />
