@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 
 import './App.css';
 
@@ -9,6 +9,10 @@ import Home from './component/Home';
 import AddExercise from './component/exercise/AddExercise';
 import EditExercise from './component/exercise/EditExercise';
 import StartExercise from './component/log/StartExercise';
+import Login from './component/login/Login';
+import { fakeAuth } from './component/login/auth';
+
+const appTokenKey = "appToken";
 
 function mapStateToProps(state) {
   return (
@@ -17,21 +21,45 @@ function mapStateToProps(state) {
 }
 
 class Main extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { redirectToLogin: false };
+  }
+  logout() {
+    fakeAuth.signout((isAuthenticated) => {
+      if (!isAuthenticated) {
+        localStorage.setItem(appTokenKey, '0');
+        this.setState({ redirectToLogin: true });
+      }
+    });
+  }
+
   render() {
+    let { redirectToLogin } = this.state;
+    if (!redirectToLogin || localStorage.getItem(appTokenKey) === '1') {
+      return (
+        <div>
+          {
+            fakeAuth.isAuthenticated || localStorage.getItem(appTokenKey) === '1' ? (<header><NavBar logoutHandler={this.logout.bind(this)} /></header>) : null
+          }
+          <div>
+            <Route path='/login' component={Login} />
+            <Route exact path='/' component={Home} />
+            <Route path='/edit/exercise/:param' component={EditExercise} />
+            <Route path='/log/start/:param' component={StartExercise} />
+            <Route path='/about' render={() => <h1>Under construction!</h1>} />
+            <Route path='/add/exercise' component={AddExercise} />
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div>
-        <header>
-          <NavBar />
-        </header>
-        <div>
-          <Route exact path='/' component={Home} />
-          <Route path='/add/exercise/:param' component={AddExercise} />
-          <Route path='/edit/exercise/:param' component={EditExercise} />
-          <Route path='/log/start/:param' component={StartExercise}/>
-          <Route path='/about' render={() => <h1>Under construction!</h1>} />
-        </div>
+        <Route exact path='/login' component={Login} />
+        <Redirect to='/login' />
       </div>
-    );
+    )
   }
 }
 
