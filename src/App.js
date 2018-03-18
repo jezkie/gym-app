@@ -23,28 +23,25 @@ function mapStateToProps(state) {
 class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = { redirectToLogin: false };
   }
   logout() {
     fakeAuth.signout((isAuthenticated) => {
       if (!isAuthenticated) {
         localStorage.setItem(appTokenKey, '0');
-        this.setState({ redirectToLogin: true });
+        this.forceUpdate();
       }
     });
   }
 
   render() {
-    let { redirectToLogin } = this.state;
-    if (!redirectToLogin || localStorage.getItem(appTokenKey) === '1') {
+    if (fakeAuth.isAuthenticated || localStorage.getItem(appTokenKey) === '1') {
+      console.log(fakeAuth.isAuthenticated, localStorage.getItem(appTokenKey));
       return (
         <div>
-          {
-            fakeAuth.isAuthenticated || localStorage.getItem(appTokenKey) === '1' ? (<header><NavBar logoutHandler={this.logout.bind(this)} /></header>) : null
-          }
+          <header><NavBar logoutHandler={this.logout.bind(this)} /></header>
           <div>
+            <Route exect path='/' component={Home} />
             <Route path='/login' component={Login} />
-            <Route exact path='/' component={Home} />
             <Route path='/edit/exercise/:param' component={EditExercise} />
             <Route path='/log/start/:param' component={StartExercise} />
             <Route path='/about' render={() => <h1>Under construction!</h1>} />
@@ -53,7 +50,7 @@ class Main extends Component {
         </div>
       );
     }
-
+    
     return (
       <div>
         <Route exact path='/login' component={Login} />
