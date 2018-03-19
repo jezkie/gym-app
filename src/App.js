@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 import './App.css';
 
@@ -11,6 +11,7 @@ import EditExercise from './component/exercise/EditExercise';
 import StartExercise from './component/log/StartExercise';
 import Login from './component/login/Login';
 import { fakeAuth } from './component/login/auth';
+import PrivateRoute from './component/login/PrivateRoute';
 
 const appTokenKey = "appToken";
 
@@ -21,9 +22,6 @@ function mapStateToProps(state) {
 }
 
 class Main extends Component {
-  constructor(props) {
-    super(props);
-  }
   logout() {
     fakeAuth.signout((isAuthenticated) => {
       if (!isAuthenticated) {
@@ -34,26 +32,15 @@ class Main extends Component {
   }
 
   render() {
-    if (fakeAuth.isAuthenticated || localStorage.getItem(appTokenKey) === '1') {
-      console.log(fakeAuth.isAuthenticated, localStorage.getItem(appTokenKey));
-      return (
-        <div>
-          <header><NavBar logoutHandler={this.logout.bind(this)} /></header>
-          <div>
-            <Route exact path='/' component={Home} />
-            <Route path='/edit/exercise/:param' component={EditExercise} />
-            <Route path='/log/start/:param' component={StartExercise} />
-            <Route path='/about' render={() => <h1>Under construction!</h1>} />
-            <Route path='/add/exercise' component={AddExercise} />
-          </div>
-        </div>
-      );
-    }
-
     return (
       <div>
+        {(fakeAuth.isAuthenticated || localStorage.getItem(appTokenKey) === '1') ? <header><NavBar logoutHandler={this.logout.bind(this)} /></header> : null}
         <Route exact path='/login' component={Login} />
-        <Redirect to='/login' />
+        <PrivateRoute exact path='/' component={Home} />
+        <PrivateRoute path='/home' component={Home} />
+        <PrivateRoute path='/edit/exercise/:param' component={EditExercise} />
+        <PrivateRoute path='/log/start/:param' component={StartExercise} />
+        <PrivateRoute path='/add/exercise' from='/add/exercise' component={AddExercise} />
       </div>
     )
   }
