@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
 
 import './App.css';
@@ -12,12 +11,6 @@ import StartExercise from './component/log/StartExercise';
 import Login from './component/login/Login';
 import { fakeAuth } from './component/login/auth';
 import PrivateRoute from './component/login/PrivateRoute';
-
-function mapStateToProps(state) {
-  return (
-    { data: state.ExerciseListReducer }
-  );
-}
 
 class Main extends Component {
   logout() {
@@ -32,7 +25,7 @@ class Main extends Component {
   render() {
     let user = {};
     user = JSON.parse(localStorage.getItem('user'));
-    
+
     return (
       <div>
         {(fakeAuth.isAuthenticated || (user && user.accessToken)) ? <header><NavBar logoutHandler={this.logout.bind(this)} /></header> : null}
@@ -47,6 +40,4 @@ class Main extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-)(Main);
+export default Main;
