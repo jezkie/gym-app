@@ -55,3 +55,8 @@
   background: #db3236;
   opacity: 0.6;
 }
+
+.loginForm {
+  margin: auto;
+  padding: 100px;
+}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormGroup, Col, ControlLabel, Button, Form, FormControl, Checkbox, Grid, Row } from 'react-bootstrap';
 import { fakeAuth } from './auth';
 import { Redirect } from 'react-router-dom';
-import { auth, provider } from '../../conf/fire';
+import { auth, provider, googleProvider } from '../../conf/fire';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faFacebook from '@fortawesome/fontawesome-free-brands/faFacebook';
 import faGoogle from '@fortawesome/fontawesome-free-brands/faGoogle';
@@ -17,6 +17,8 @@ class Login extends Component {
         this.state = { redirectToReferer: false }
         this.login = this.login.bind(this);
         this.loginWithFacebook = this.loginWithFacebook.bind(this);
+        this.loginWithGoogle = this.loginWithGoogle.bind(this);
+        this.handleLoginResult = this.handleLoginResult.bind(this);
     }
 
     login(event) {
@@ -29,19 +31,35 @@ class Login extends Component {
     }
 
     loginWithFacebook() {
-        auth.signInWithPopup(provider).then((result) => {
-            let user = Object.assign({}, (({ displayName, photoURL }) => ({ displayName, photoURL }))(result.user));
-            localStorage.setItem(appTokenKey, '1');
-            localStorage.setItem('user', JSON.stringify(user));
-            this.setState(
-                { redirectToReferer: true }
-            );
-        })
+        auth.signInWithPopup(provider).then(this.handleLoginResult)
+            .catch(this.handleLoginError)
+    }
+
+    loginWithGoogle() {
+        auth.signInWithPopup(googleProvider).then(this.handleLoginResult)
+            .catch(this.handleLoginError)
+    }
+
+    handleLoginResult(result) {
+        console.log('result', result);
+        let user = Object.assign({},
+            (({ displayName, photoURL }) =>
+                ({ displayName, photoURL }))(result.user),
+            { accessToken: result.credential.accessToken });
+        console.log('user', user);
+        localStorage.setItem('user', JSON.stringify(user));
+        this.setState(
+            { redirectToReferer: true }
+        );
+    }
+
+    handleLoginError(err) {
+        console.log('Error', err);
     }
 
     render() {
         let { from } = this.props.location.state || { from: { pathname: '/home' } };
-        from = (typeof from !== undefined) ? from : { from: { pathname: '/home' } };
+        from = (from === undefined) ? { from: { pathname: '/home' } } : from;
 
         const { redirectToReferer } = this.state;
         if (redirectToReferer) {
@@ -50,14 +68,14 @@ class Login extends Component {
 
         return (
             <div>
-                <Grid>
+                <Grid className="loginForm">
                     <Form horizontal onSubmit={this.login}>
                         <Row>
                             <Col lg={6} lgOffset={3}>
-                                
+
                                 <Button type="button" onClick={() => this.loginWithFacebook()} block className="btnFacebook" ><FontAwesomeIcon icon={faFacebook} /> Login with Facebook</Button>
                                 <Divider horizontal>OR</Divider>
-                                <Button type="button" onClick={() => this.loginWithFacebook()} block className="btnGoogle" ><FontAwesomeIcon icon={faGoogle} /> Login with Google</Button>
+                                <Button type="button" onClick={() => this.loginWithGoogle()} block className="btnGoogle" ><FontAwesomeIcon icon={faGoogle} /> Login with Google</Button>
                                 <Divider horizontal>OR</Divider>
                             </Col>
                         </Row>
@@ -82,7 +100,7 @@ class Login extends Component {
                                         <Checkbox>Remember me</Checkbox>
                                     </Col>
                                 </FormGroup>
-                                <Button type="submit" block bsStyle="primary">Sign in</Button>
+                                <Button type="button" block bsStyle="primary">Sign in</Button>
                             </Col>
                         </Row>
                     </Form>
