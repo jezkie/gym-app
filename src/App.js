@@ -13,8 +13,6 @@ import Login from './component/login/Login';
 import { fakeAuth } from './component/login/auth';
 import PrivateRoute from './component/login/PrivateRoute';
 
-const appTokenKey = "appToken";
-
 function mapStateToProps(state) {
   return (
     { data: state.ExerciseListReducer }
