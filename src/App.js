@@ -32,9 +32,12 @@ class Main extends Component {
   }
 
   render() {
+    let user = {};
+    user = JSON.parse(localStorage.getItem('user'));
+    
     return (
       <div>
-        {(fakeAuth.isAuthenticated || localStorage.getItem(appTokenKey) === '1') ? <header><NavBar logoutHandler={this.logout.bind(this)} /></header> : null}
+        {(fakeAuth.isAuthenticated || (user && user.accessToken)) ? <header><NavBar logoutHandler={this.logout.bind(this)} /></header> : null}
         <Route exact path='/login' component={Login} />
         <PrivateRoute exact path='/' component={Home} />
         <PrivateRoute path='/home' component={Home} />

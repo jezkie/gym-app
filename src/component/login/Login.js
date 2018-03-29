@@ -8,9 +8,6 @@ import faFacebook from '@fortawesome/fontawesome-free-brands/faFacebook';
 import faGoogle from '@fortawesome/fontawesome-free-brands/faGoogle';
 import { Divider } from 'semantic-ui-react';
 
-
-const appTokenKey = "appToken";
-
 class Login extends Component {
     constructor(props) {
         super(props);
