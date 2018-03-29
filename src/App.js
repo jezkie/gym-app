@@ -25,7 +25,7 @@ class Main extends Component {
   logout() {
     fakeAuth.signout((isAuthenticated) => {
       if (!isAuthenticated) {
-        localStorage.setItem(appTokenKey, '0');
+        localStorage.clear();
         this.forceUpdate();
       }
     });

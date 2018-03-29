@@ -10,4 +10,7 @@ const fircnf = {
   }
 
 const fire = firebase.initializeApp(fircnf);
+export const provider = new firebase.auth.FacebookAuthProvider();
+export const auth = firebase.auth();
+
 export default fire;

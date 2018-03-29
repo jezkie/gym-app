@@ -6,9 +6,10 @@ const appTokenKey = "appToken";
 
 class PrivateRoute extends Component {
     render() {
+        const { component: Component, ...rest } = this.props;
         return (
-            <Route exact={this.props.exact} path={this.props.path} render={(props) => (
-                fakeAuth.isAuthenticated || localStorage.getItem(appTokenKey) === '1' ? (<this.props.component />) :
+            <Route {...rest} render={(props) => (
+                fakeAuth.isAuthenticated || localStorage.getItem(appTokenKey) === '1' ? (<Component {...props} />) :
                     (<Redirect to={{ pathname: '/login', state: { from: this.props.from } }} />)
             )} />
         );
