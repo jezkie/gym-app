@@ -9,11 +9,12 @@ import {
     LEG_TYPE,
     DEFAULT_VALUE
 } from '../../const/exerciseType';
+import MessageCommon from '../../common/component/MessageCommon';
 
 function mapStateToProps(state) {
-    return {
-
-    };
+    return (
+        { data: state.ExerciseListReducer }
+    );
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -72,8 +73,15 @@ class AddExercise extends Component {
     }
 
     render() {
+        const { data } = this.props;
+        const { success } = data;
+        const { error } = data;
         return (
-            <ExerciseForm saveHandler={this.save} _this={this} />
+            <div>
+                <MessageCommon success={success} error={error} />
+                <ExerciseForm saveHandler={this.save} _this={this} />
+            </div>
+
         );
     }
 }

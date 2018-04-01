@@ -13,6 +13,7 @@ import {
     LEG_TYPE,
     DEFAULT_VALUE
 } from '../../const/exerciseType';
+import MessageCommon from '../../common/component/MessageCommon';
 
 function mapStateToProps(state) {
     return (
@@ -78,14 +79,18 @@ class EditExercise extends Component {
         const { updateExercise } = this.props;
         const { selectedTypeDescription, selectedType, types, ...exercise } = this.state;
         updateExercise(exercise);
-        const { fetchExercise } = this.props;
-        fetchExercise(exercise.key);
+        // const { fetchExercise } = this.props;
+        // fetchExercise(exercise.key);
     }
 
     render() {
+        const { data } = this.props;
+        const { success } = data;
+        const { error } = data;
         return (
             <div>
                 <BlockUi tag='div' blocking={!this.props.data.loaded}>
+                    <MessageCommon success={success} error={error} />
                     <ExerciseForm saveHandler={this.save} _this={this} loaded={this.props.data.loaded} />
                 </BlockUi>
             </div>

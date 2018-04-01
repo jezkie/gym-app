@@ -34,7 +34,18 @@ export function fetchExercises(key) {
 }
 
 export function createExercise(exercise) {
-    return dispatch => exercisesRef.push(exercise);
+    return (
+        dispatch => {
+            exercisesRef.push(exercise).then(
+                () => {
+                    dispatch({
+                        type: 'ADD_EXERCISE_FULLFILLED',
+                    });
+                }).catch((error) => {
+
+                });
+        }
+    )
 }
 
 export function deleteExercise(key) {
@@ -46,23 +57,28 @@ export function deleteExercise(key) {
 }
 
 export function fetchExercise(key) {
-    return (
-        dispatch => {
-            exercisesRef.orderByKey().equalTo(key).on('child_added', (snap) => {
-                const exercise = Object.assign({}, snap.val(), {key: key});
-                dispatch({
-                    type: 'GET_EXERCISE',
-                    payload: exercise
-                })
-            });
-        }
-    )
+    
+    return dispatch => exercisesRef.orderByKey().equalTo(key).on('child_added', (snap) => {
+        const exercise = Object.assign({}, snap.val(), { key: key });
+        dispatch({
+            type: 'GET_EXERCISE',
+            payload: exercise
+        })
+    });
 }
 
 export function updateExercise(exercise) {
     return (
         dispatch => {
-            exercisesRef.child(exercise.key).update(exercise);
+            exercisesRef.child(exercise.key).update(exercise).then(
+                () => {
+                    dispatch({
+                        type: 'EDIT_EXERCISE_FULLFILLED',
+                        payload: exercise
+                    });
+                }).catch((error) => {
+
+                });
         }
     )
 }
@@ -72,7 +88,7 @@ export function fetchRecentExercise() {
         dispatch => {
             dispatch({
                 type: 'GET_RECENT_EXERCISE',
-                payload: { weight: 100, unit: 'lbs', reps: 8 } 
+                payload: { weight: 100, unit: 'lbs', reps: 8 }
             })
         }
     )

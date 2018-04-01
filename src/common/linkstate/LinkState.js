@@ -6,7 +6,7 @@ export function linkState(component, attr) {
                 ...component.state,
                 [attr]: x
             }, () => {
-                console.log('linkState on change handler => input', component.state);
+                // console.log('linkState on change handler => input', component.state);
             });
         }
     }
@@ -21,7 +21,7 @@ export function dropdownLinkState(component, attr, descAttr) {
                 [attr]: x,
                 [descAttr]: y
             }, () => {
-                console.log('linkState on change handler => input', component.state);
+                // console.log('linkState on change handler => input', component.state);
             });
         }
     }
