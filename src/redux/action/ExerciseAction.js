@@ -49,9 +49,10 @@ export function fetchExercise(key) {
     return (
         dispatch => {
             exercisesRef.orderByKey().equalTo(key).on('child_added', (snap) => {
+                const exercise = Object.assign({}, snap.val(), {key: key});
                 dispatch({
                     type: 'GET_EXERCISE',
-                    payload: snap.val()
+                    payload: exercise
                 })
             });
         }

@@ -76,8 +76,10 @@ class EditExercise extends Component {
     save(e) {
         e.preventDefault();
         const { updateExercise } = this.props;
-        const exercise = Object.assign({}, this.state);
+        const { selectedTypeDescription, selectedType, types, ...exercise } = this.state;
         updateExercise(exercise);
+        const { fetchExercise } = this.props;
+        fetchExercise(exercise.key);
     }
 
     render() {
