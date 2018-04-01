@@ -46,7 +46,7 @@ class StartExercise extends Component {
     renderSets(sets, reps) {
         const result = [];
         for (var i = 0; i < sets; i++) {
-            if (this.state.finishedSets[i]) {
+            if (this.state.finishedSets.includes(i)) {
                 result.push(<Menu.Item key={i} disabled onClick={this.logExercise.bind(this, i)}>{reps}</Menu.Item>);
             } else {
                 result.push(<Menu.Item key={i} onClick={this.logExercise.bind(this, i)}>{reps}</Menu.Item>);
@@ -57,7 +57,7 @@ class StartExercise extends Component {
 
     logExercise(set) {
         const newArr = this.state.finishedSets.slice();
-        newArr.push({ [set]: true });
+        newArr.push(set);
 
         if (this.state.showTimer) {
             this.setState({ showTimer: false }, () => {
