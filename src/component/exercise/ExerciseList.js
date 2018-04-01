@@ -1,6 +1,4 @@
 import React from 'react';
-import defaultImg from '../../images/default.svg';
-import addIcon from '../../images/Add-icon.png';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Item, Button } from 'semantic-ui-react';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
@@ -8,7 +6,7 @@ import faPlus from '@fortawesome/fontawesome-free-solid/faPlus';
 import faEdit from '@fortawesome/fontawesome-free-solid/faEdit';
 import faTrash from '@fortawesome/fontawesome-free-solid/faTrash';
 import faPlay from '@fortawesome/fontawesome-free-solid/faPlay';
-import { Thumbnail, Row, Grid, Col } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 
 const ExerciseList = ({ exercises, deleteHandler }) => {
     let exerciseList = exercises.map((item, i) => {
@@ -38,7 +36,7 @@ const ExerciseList = ({ exercises, deleteHandler }) => {
         )
     })
     return (
-        <Grid>
+        <Col lg={4} lgOffset={4}>
             <Item.Group divided>
                 <Item>
                     <Item.Content>
@@ -49,7 +47,7 @@ const ExerciseList = ({ exercises, deleteHandler }) => {
                 </Item>
                 {exerciseList}
             </Item.Group>
-        </Grid>
+        </Col>
     )
 };
 

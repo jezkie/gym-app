@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Grid, Header, Label, Segment, Container, Menu } from 'semantic-ui-react';
 import moment from 'moment';
 
-import { fetchExercise, fetchRecentExercise } from '../../redux/action/ExerciseAction';
-import { logExercise } from '../../redux/action/LogExerciseAction';
+import { fetchExercise } from '../../redux/action/ExerciseAction';
+import { logExercise, retrieveLatestByType } from '../../redux/action/LogExerciseAction';
 import Countdown from '../../common/util/Countdown';
 
 function mapStateToProps(state) {
@@ -20,8 +20,8 @@ const mapDispatchToProps = (dispatch) => {
         logExercise: (exercise) => {
             dispatch(logExercise(exercise));
         },
-        fetchRecentExercise: () => {
-            dispatch(fetchRecentExercise());
+        retrieveLatestByType: (type) => {
+            dispatch(retrieveLatestByType(type));
         }
     }
 }
@@ -37,6 +37,7 @@ class StartExercise extends Component {
             finishedSets: [],
             showTimer: false
         }
+        this.latestRetrieved = false;
         this.countDownFinishHandler = this.countDownFinishHandler.bind(this);
     }
 
@@ -45,7 +46,16 @@ class StartExercise extends Component {
         const { fetchExercise } = this.props;
         const { fetchRecentExercise } = this.props;
         fetchExercise(key);
-        fetchRecentExercise();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const { data } = nextProps;
+        const { exercise } = data;
+        const { retrieveLatestByType } = this.props;
+        if (exercise.type && !this.latestRetrieved) {
+            retrieveLatestByType(exercise.type);
+            this.latestRetrieved = true;
+        }
     }
 
     renderSets(sets, reps) {
@@ -79,18 +89,11 @@ class StartExercise extends Component {
         const { finishedSets, showTimer, ...includedFields } = this.state;
         const logObj = Object.assign({},
             //object destructuring and property shorhand
-            (({ name, reps }) => ({ name, reps }))(exercise),
+            (({ name, reps, type }) => ({ name, reps, type }))(exercise),
             includedFields,
             { set: set + 1 });
         console.log(logObj);
-        // logExercise(logObj);
-    }
-
-    shouldComponentUpdate(nextProp, nextState) {
-        // do not update when next exercise started without finishing the rest time
-        // console.log(!(this.state.showTimer === true && nextState.showTimer === false))
-        // return !(this.state.showTimer === true && nextState.showTimer === false);
-        return true;
+        logExercise(logObj);
     }
 
     countDownFinishHandler() {
@@ -102,6 +105,7 @@ class StartExercise extends Component {
         const { exercise } = data;
         const { showTimer } = this.state;
         const { recentExercise } = data;
+
         return (
 
             <Container text>

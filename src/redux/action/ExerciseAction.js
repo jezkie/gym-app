@@ -82,14 +82,3 @@ export function updateExercise(exercise) {
         }
     )
 }
-
-export function fetchRecentExercise() {
-    return (
-        dispatch => {
-            dispatch({
-                type: 'GET_RECENT_EXERCISE',
-                payload: { weight: 100, unit: 'lbs', reps: 8 }
-            })
-        }
-    )
-}
