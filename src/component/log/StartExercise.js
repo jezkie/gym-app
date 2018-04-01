@@ -5,6 +5,7 @@ import moment from 'moment';
 
 import { fetchExercise } from '../../redux/action/ExerciseAction';
 import { logExercise } from '../../redux/action/LogExerciseAction';
+import Countdown from '../../common/util/Countdown';
 
 function mapStateToProps(state) {
     return (
@@ -29,10 +30,11 @@ class StartExercise extends Component {
         this.state = {
             weight: 150,
             unit: 'lbs',
-            date: moment(d).format('L')
+            date: moment(d).format('L'),
+            finishedSets: [],
+            showTimer: false
         }
-
-        // this.logExercise = this.logExercise.bind(this);
+        this.countDownFinishHandler = this.countDownFinishHandler.bind(this);
     }
 
     componentWillMount() {
@@ -44,32 +46,58 @@ class StartExercise extends Component {
     renderSets(sets, reps) {
         const result = [];
         for (var i = 0; i < sets; i++) {
-            result.push(<Menu.Item key={i} onClick={this.logExercise.bind(this, i)}>{reps}</Menu.Item>);
+            if (this.state.finishedSets[i]) {
+                result.push(<Menu.Item key={i} disabled onClick={this.logExercise.bind(this, i)}>{reps}</Menu.Item>);
+            } else {
+                result.push(<Menu.Item key={i} onClick={this.logExercise.bind(this, i)}>{reps}</Menu.Item>);
+            }
         }
-
         return <Menu vertical fluid color='red' style={{ padding: '10px' }}>{result}</Menu>
     }
 
     logExercise(set) {
+        const newArr = this.state.finishedSets.slice();
+        newArr.push({ [set]: true });
+
+        if (this.state.showTimer) {
+            this.setState({ showTimer: false }, () => {
+                this.setState({ showTimer: true, finishedSets: newArr })
+            });
+            // return; enable this instead if we don't want user to proceed without completing the rest time
+        } else {
+            this.setState({ showTimer: true, finishedSets: newArr });
+        }
+
         const { data } = this.props;
         const { exercise } = data;
         const { logExercise } = this.props;
-        //log exercise here
+        const { finishedSets, showTimer, ...includedFields } = this.state;
         const logObj = Object.assign({},
             //object destructuring and property shorhand
             (({ name, reps }) => ({ name, reps }))(exercise),
-            this.state,
+            includedFields,
             { set: set + 1 });
         console.log(logObj);
-        logExercise(logObj);
-        //start rest time
+        // logExercise(logObj);
+    }
+
+    shouldComponentUpdate(nextProp, nextState) {
+        // do not update when next exercise started without finishing the rest time
+        return !(this.state.showTimer === true && nextState.showTimer === false);
+    }
+
+    countDownFinishHandler() {
+        this.setState({ showTimer: false });
     }
 
     render() {
         const { data } = this.props;
         const { exercise } = data;
+        const { showTimer } = this.state;
         return (
+
             <Container text>
+                {showTimer ? <div id="timer"><Countdown countDownFinishHandler={this.countDownFinishHandler} /></div> : null}
                 <Segment color='red' textAlign='center'>
 
                     <Grid>

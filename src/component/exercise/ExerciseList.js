@@ -13,7 +13,7 @@ const ExerciseList = ({ exercises, deleteHandler }) => {
                     <a onClick={() => deleteHandler(item.key)}>
                         <span className="glyphicon glyphicon-remove"></span>
                     </a>
-                    <h3>{item.name}</h3>
+                    <h3>{item.name} {item.sets} x {item.reps}</h3>
 
                     <LinkContainer to={`/log/start/${item.key}`}>
                         <Button bsStyle="primary">Start</Button>
