@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Grid, Header, Label, Segment, Container, Menu } from 'semantic-ui-react';
 import moment from 'moment';
 
-import { fetchExercise } from '../../redux/action/ExerciseAction';
+import { fetchExercise, fetchRecentExercise } from '../../redux/action/ExerciseAction';
 import { logExercise } from '../../redux/action/LogExerciseAction';
 import Countdown from '../../common/util/Countdown';
 
@@ -19,6 +19,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         logExercise: (exercise) => {
             dispatch(logExercise(exercise));
+        },
+        fetchRecentExercise: () => {
+            dispatch(fetchRecentExercise());
         }
     }
 }
@@ -40,7 +43,9 @@ class StartExercise extends Component {
     componentWillMount() {
         const key = this.props.match.params.param;
         const { fetchExercise } = this.props;
+        const { fetchRecentExercise } = this.props;
         fetchExercise(key);
+        fetchRecentExercise();
     }
 
     renderSets(sets, reps) {
@@ -83,7 +88,9 @@ class StartExercise extends Component {
 
     shouldComponentUpdate(nextProp, nextState) {
         // do not update when next exercise started without finishing the rest time
-        return !(this.state.showTimer === true && nextState.showTimer === false);
+        // console.log(!(this.state.showTimer === true && nextState.showTimer === false))
+        // return !(this.state.showTimer === true && nextState.showTimer === false);
+        return true;
     }
 
     countDownFinishHandler() {
@@ -94,6 +101,7 @@ class StartExercise extends Component {
         const { data } = this.props;
         const { exercise } = data;
         const { showTimer } = this.state;
+        const { recentExercise } = data;
         return (
 
             <Container text>
@@ -110,7 +118,7 @@ class StartExercise extends Component {
                             <Grid.Column floated='right' width={3}>
                                 <Label>
                                     Weight
-                            <Label.Detail>{this.state.weight} lbs</Label.Detail>
+                            <Label.Detail>{recentExercise.weight} {recentExercise.unit}</Label.Detail>
                                 </Label>
                             </Grid.Column>
                         </Grid.Row>

@@ -1,6 +1,8 @@
 const initialState = {
     exercises: [],
-    exercise: {}, loaded: false
+    exercise: {}, 
+    recentExercise: {},
+    loaded: false
 }
 
 export default function ExerciseListReducer(state = initialState, action) {
@@ -9,6 +11,8 @@ export default function ExerciseListReducer(state = initialState, action) {
             return {...state, exercises: action.payload, loaded: true};
         case 'GET_EXERCISE':
             return {...state, exercise: action.payload, loaded: true};
+        case 'GET_RECENT_EXERCISE':
+            return {...state, recentExercise: action.payload, loaded: true};
         default:
             return state;
     }
