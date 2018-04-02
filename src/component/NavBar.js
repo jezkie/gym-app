@@ -1,6 +1,8 @@
 import React from 'react';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Image, Glyphicon, Label } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faHome from '@fortawesome/fontawesome-free-solid/faHome';
 
 const profilePic = {
     width: '40px', height: '40px'
@@ -15,7 +17,7 @@ const NavBar = ({ logoutHandler }) => {
             <Navbar>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <a href="/">Home</a>
+                        <a href="/"><FontAwesomeIcon icon={faHome}/></a>
                     </Navbar.Brand>
                 </Navbar.Header>
                 <Nav>
