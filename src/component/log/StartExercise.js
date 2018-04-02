@@ -44,7 +44,6 @@ class StartExercise extends Component {
     componentWillMount() {
         const key = this.props.match.params.param;
         const { fetchExercise } = this.props;
-        const { fetchRecentExercise } = this.props;
         fetchExercise(key);
     }
 
