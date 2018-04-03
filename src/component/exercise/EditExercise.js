@@ -36,11 +36,7 @@ class EditExercise extends Component {
         super(props);
         this.save = this.save.bind(this);
         this.state = {
-            key: '',
-            name: '',
-            sets: '',
-            reps: '',
-            type: '',
+            key: '', name: '', sets: '', reps: '', type: '',
             types: [DEFAULT_VALUE, CHEST_TYPE, BACK_TYPE, SHOULDER_TYPE, LEG_TYPE],
             selectedTypeDescription: DEFAULT_VALUE.description,
             selectedType: ''
@@ -77,10 +73,8 @@ class EditExercise extends Component {
     save(e) {
         e.preventDefault();
         const { updateExercise } = this.props;
-        const { selectedTypeDescription, selectedType, types, ...exercise } = this.state;
+        const { selectedTypeDescription, selectedType, types, key, ...exercise } = this.state;
         updateExercise(exercise);
-        // const { fetchExercise } = this.props;
-        // fetchExercise(exercise.key);
     }
 
     render() {

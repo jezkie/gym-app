@@ -45,7 +45,7 @@ const ExerciseForm = ({ saveHandler, _this }) => {
                         <TextInput valueLink={linkState(_this, 'reps')} type='number' />
                     </Col>
                 </FormGroup>
-                <input type="submit" value="Submit" />
+                <input type="submit" value="Submit" className='btn btn-primary'/>
             </Col>
         </form>
     );

@@ -1,5 +1,6 @@
 import fire from '../../conf/fire';
 const exercisesRef = fire.database().ref().child('exercises');
+const logsRef = fire.database().ref().child('logs');
 
 function mapExerciseToKey(list) {
     let exercises = [];
@@ -31,6 +32,36 @@ export function fetchExercises(key) {
             }
         }
     )
+}
+
+export function setExerciseDetail(exercise) {
+    console.log('exercise --->', exercise);
+    return dispatch => {
+        logsRef.orderByChild('type').equalTo(parseInt(exercise.type, 10)).on('value', (snap) => {
+            console.log(snap.val());
+            var keys = Object.keys(snap.val()||{});
+            var lastIdInSnapshot = keys[keys.length-1];
+            if (lastIdInSnapshot) {
+                logsRef.orderByKey().startAt(lastIdInSnapshot).on('child_added', (newSnap) => {
+                    if (snap.key === lastIdInSnapshot) {
+                        return;
+                    }
+                    dispatch({
+                        type: 'GET_EXERCISE_DETAIL',
+                        payload: { ...exercise, weight: newSnap.val().weight, unit: newSnap.val().unit, reps: newSnap.val().reps }
+                    })
+                    console.log(newSnap.val())
+                })
+            } else {
+                dispatch({
+                    type: 'GET_EXERCISE_DETAIL',
+                    payload: { ...exercise, weight: 45, unit: 'lbs' }
+                })
+            }
+            
+
+        })
+    }
 }
 
 export function createExercise(exercise) {

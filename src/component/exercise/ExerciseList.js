@@ -27,7 +27,7 @@ const ExerciseList = ({ exercises, deleteHandler }) => {
                         {item.sets} x {item.reps}
                     </Item.Meta>
                     <Item.Extra>
-                        <LinkContainer to={`/log/start/${item.key}`} >
+                        <LinkContainer to={`/log/start/${item.name}/${item.type}/${item.sets}/${item.reps}`} >
                             <Button floated='left' primary circular><FontAwesomeIcon icon={faPlay} /></Button>
                         </LinkContainer>
                         <Button.Group floated='right'>

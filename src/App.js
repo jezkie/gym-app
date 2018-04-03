@@ -33,7 +33,7 @@ class Main extends Component {
         <PrivateRoute exact path='/' component={Home} />
         <PrivateRoute path='/home' component={Home} />
         <PrivateRoute path='/edit/exercise/:param' component={EditExercise} />
-        <PrivateRoute path='/log/start/:param' component={StartExercise} />
+        <PrivateRoute path='/log/start/:name/:type/:sets/:reps' component={StartExercise} />
         <PrivateRoute path='/add/exercise' from='/add/exercise' component={AddExercise} />
       </div>
     )

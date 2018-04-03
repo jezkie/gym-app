@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Grid, Header, Label, Segment, Container, Menu } from 'semantic-ui-react';
 import moment from 'moment';
 
-import { fetchExercise } from '../../redux/action/ExerciseAction';
-import { logExercise, retrieveLatestByType } from '../../redux/action/LogExerciseAction';
+import { setExerciseDetail } from '../../redux/action/ExerciseAction';
+import { logExercise } from '../../redux/action/LogExerciseAction';
 import Countdown from '../../common/util/Countdown';
 
 function mapStateToProps(state) {
@@ -14,14 +14,11 @@ function mapStateToProps(state) {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchExercise: (key) => {
-            dispatch(fetchExercise(key));
-        },
         logExercise: (exercise) => {
             dispatch(logExercise(exercise));
         },
-        retrieveLatestByType: (type) => {
-            dispatch(retrieveLatestByType(type));
+        setExerciseDetail: (exercise) => {
+            dispatch(setExerciseDetail(exercise));
         }
     }
 }
@@ -31,8 +28,6 @@ class StartExercise extends Component {
         super(props);
         const d = new Date();
         this.state = {
-            weight: 150,
-            unit: 'lbs',
             date: moment(d).format('L'),
             finishedSets: [],
             showTimer: false
@@ -42,19 +37,9 @@ class StartExercise extends Component {
     }
 
     componentWillMount() {
-        const key = this.props.match.params.param;
-        const { fetchExercise } = this.props;
-        fetchExercise(key);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        const { data } = nextProps;
-        const { exercise } = data;
-        const { retrieveLatestByType } = this.props;
-        if (exercise.type && !this.latestRetrieved) {
-            retrieveLatestByType(exercise.type);
-            this.latestRetrieved = true;
-        }
+        const { setExerciseDetail } = this.props;
+        console.log(this.props.match.params);
+        setExerciseDetail(this.props.match.params);
     }
 
     renderSets(sets, reps) {
@@ -74,7 +59,7 @@ class StartExercise extends Component {
         newArr.push(set);
 
         if (this.state.showTimer) {
-            this.setState({ showTimer: false }, () => {
+            this.setState({ showTimer: false }, () => { // this will unmount current timer and mount in the callback below
                 this.setState({ showTimer: true, finishedSets: newArr })
             });
             // return; enable this instead if we don't want user to proceed without completing the rest time
@@ -82,9 +67,8 @@ class StartExercise extends Component {
             this.setState({ showTimer: true, finishedSets: newArr });
         }
 
-        const { data } = this.props;
+        const { data, logExercise } = this.props;
         const { exercise } = data;
-        const { logExercise } = this.props;
         const { finishedSets, showTimer, ...includedFields } = this.state;
         const logObj = Object.assign({},
             //object destructuring and property shorhand
@@ -103,7 +87,6 @@ class StartExercise extends Component {
         const { data } = this.props;
         const { exercise } = data;
         const { showTimer } = this.state;
-        const { recentExercise } = data;
 
         return (
 
@@ -121,7 +104,7 @@ class StartExercise extends Component {
                             <Grid.Column floated='right' width={3}>
                                 <Label>
                                     Weight
-                            <Label.Detail>{recentExercise.weight} {recentExercise.unit}</Label.Detail>
+                            <Label.Detail>{exercise.weight} {exercise.unit}</Label.Detail>
                                 </Label>
                             </Grid.Column>
                         </Grid.Row>

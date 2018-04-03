@@ -23,6 +23,10 @@ export default function ExerciseListReducer(state = initialState, action) {
             return {
                 ...state, success: 'Exercise updated...', exercise: action.payload
             }
+        case 'GET_EXERCISE_DETAIL':
+            return {
+                ...state, exercise: action.payload
+            }
         default:
             return state;
     }
